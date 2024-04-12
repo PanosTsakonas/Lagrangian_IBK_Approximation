@@ -31,8 +31,8 @@ phieq=0;
 
 T1[t_]:=5*Sin[3*t];
 T2[t_]:= 2*Exp[-3*t];
-T3[t_]:=1;
-T4[t_]:=0
+T3=1;
+T4=0
 (* For IBK Simulation *)
 Ib1= I1+L1^2*(m2+m3)+m1*L1^2/4;
 Ib2=I2+L2^2*m3+m2*L2^2/4;
@@ -80,7 +80,7 @@ c//FullSimplify;
 d=D[D[L,phi'[t]],t]-D[L,phi[t]]+b4*phi'[t];
 
 
-eqns={a==T1[t],b==T2[t],c==T3[t],d==T4[t]};
+eqns={a==T1[t],b==T2[t],c==T3,d==T4};
 
 (* Numerical Solve of Lagrangian *)
 
@@ -94,7 +94,7 @@ s1=NDSolve[{{F[Ib1,b1,K1,x]==T1[t]},x[0]==5*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
 s2=NDSolve[{{F[Ib2,b2,K2,x]==T2[t]},x[0]==10*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
-s3=NDSolve[{{F[Ib3,b3,K3,x]==T3[t]},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
+s3=NDSolve[{{F[Ib3,b3,K3,x]==T3},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
 (* Extract Lagrangian and IBK solutions *)
 th1Sol = th1[t] /. s[[1]];

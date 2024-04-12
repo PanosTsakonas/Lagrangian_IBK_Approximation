@@ -26,6 +26,7 @@ th1eq=0;
 th2eq=0;
 th3eq=0;
 phieq=0;
+g=9.81;
 
 (* Inputs *)
 T1[t_]:=5*Sin[3*t]; (*For MCP joint*)

@@ -26,6 +26,13 @@ th1eq=0;
 th2eq=0;
 th3eq=0;
 phieq=0;
+
+(* Inputs *)
+
+T1[t_]:=5*Sin[3*t];
+T2[t_]:= 2*Exp[-3*t];
+T3[t_]:=1;
+T4[t_]:=0
 (* For IBK Simulation *)
 Ib1= I1+L1^2*(m2+m3)+m1*L1^2/4;
 Ib2=I2+L2^2*m3+m2*L2^2/4;
@@ -71,29 +78,23 @@ b//FullSimplify;
 c=D[D[L,th3'[t]],t]-D[L,th3[t]]+b3*th3'[t];
 c//FullSimplify;
 d=D[D[L,phi'[t]],t]-D[L,phi[t]]+b4*phi'[t];
-(* Inputs *)
-
-T1[t_]:=5*Sin[3*t];
-T2[t_]:= 2*Exp[-3*t];
-T3=1;
 
 
-eqns={a==T1[t],b==T2[t],c==T3,d==0};
+eqns={a==T1[t],b==T2[t],c==T3[t],d==T4[t]};
 
 (* Numerical Solve of Lagrangian *)
 
 s=NDSolve[{eqns,th1[0]==5*Pi/180,th1'[0]==0,th2[0]==10*Pi/180,th2'[0]==0,th3[0]==20*Pi/180,th3'[0]==0,phi[0]==15*Pi/180,phi'[0]==0},{th1[t],th2[t],th3[t],phi[t]},{t,0,1}];
 
 (* IBK Approximation *)
-
 F[Im1_, Bm_, Km_,u_]:=Im1*u''[t]+Bm*u'[t]+Km*u[t];
 
-
+(* Solve IBK ODE *)
 s1=NDSolve[{{F[Ib1,b1,K1,x]==T1[t]},x[0]==5*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
 s2=NDSolve[{{F[Ib2,b2,K2,x]==T2[t]},x[0]==10*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
-s3=NDSolve[{{F[Ib3,b3,K3,x]==T3},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
+s3=NDSolve[{{F[Ib3,b3,K3,x]==T3[t]},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
 (* Extract Lagrangian and IBK solutions *)
 th1Sol = th1[t] /. s[[1]];

@@ -17,22 +17,22 @@ I3=m3*(R3^2/4+L1^3/12);
 K1=10;
 b1=0.1;
 K2=5;
-b2=B1/2;
+b2=b1/2;
 K3=1;
 K4=1;
 b4=0.01;
-b3=B1/5;
+b3=b1/5;
 th1eq=0;
 th2eq=0;
 th3eq=0;
 phieq=0;
 
 (* Inputs *)
+T1[t_]:=5*Sin[3*t]; (*For MCP joint*)
+T2[t_]:= 2*Exp[-3*t];(*For PIP joint*)
+T3=1;(*For DIP joint*)
+T4=0;(*For Ad/abduction movement*)
 
-T1[t_]:=5*Sin[3*t];
-T2[t_]:= 2*Exp[-3*t];
-T3=1;
-T4=0
 (* For IBK Simulation *)
 Ib1= I1+L1^2*(m2+m3)+m1*L1^2/4;
 Ib2=I2+L2^2*m3+m2*L2^2/4;

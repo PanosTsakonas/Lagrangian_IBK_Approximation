@@ -71,6 +71,7 @@ V=Vspr(*+Vgrav*);
 (*Lagrangian*)
 L=Kt-V;
 
+(*Euler-Lagrange equations*)
 a=D[D[L,th1'[t]],t]-D[L,th1[t]]+b1*th1'[t];
 a//FullSimplify;
 b=D[D[L,th2'[t]],t]-D[L,th2[t]]+b2*th2'[t];

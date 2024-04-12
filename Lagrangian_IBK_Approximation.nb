@@ -65,9 +65,10 @@ K1a=1/2*(m1*r1[t]+m2*r2[t]+m3*r3[t]);
 T=1/2*(I1*(th1'[t]^2+Cos[th1[t]]^2*phi'[t]^2)+I2*(th2'[t]^2+Cos[th2[t]]^2*phi'[t]^2)+I3*(th3'[t]^2+Cos[th3[t]]^2*phi'[t]^2));
 Kt=K1a+T//FullSimplify;
 Vspr=K1/2*(th1[t]-th1eq)^2+K2/2*(th2[t]-th2eq)^2+K3/2*(th3[t]-th3eq)^2+K4/2*(phi[t]-phieq)^2;
-(*Vgrav=m1*g*z1[t]+m2*g*z2[t]+m3*g*z3[t];*)
+Vgrav=m1*g*z1[t]+m2*g*z2[t]+m3*g*z3[t];
+(*Total Potential Energy*)
+V=Vspr+Vgrav;
 
-V=Vspr(*+Vgrav*);
 (*Lagrangian*)
 L=Kt-V;
 
@@ -80,22 +81,23 @@ c=D[D[L,th3'[t]],t]-D[L,th3[t]]+b3*th3'[t];
 c//FullSimplify;
 d=D[D[L,phi'[t]],t]-D[L,phi[t]]+b4*phi'[t];
 
-
+(*Set the equations*)
 eqns={a==T1[t],b==T2[t],c==T3,d==T4};
 
 (* Numerical Solve of Lagrangian *)
-
 s=NDSolve[{eqns,th1[0]==5*Pi/180,th1'[0]==0,th2[0]==10*Pi/180,th2'[0]==0,th3[0]==20*Pi/180,th3'[0]==0,phi[0]==15*Pi/180,phi'[0]==0},{th1[t],th2[t],th3[t],phi[t]},{t,0,1}];
 
 (* IBK Approximation *)
-F[Im1_, Bm_, Km_,u_]:=Im1*u''[t]+Bm*u'[t]+Km*u[t];
+F[Im1_, Bm_, Km_,u_]:=Im1*u''[t]+Bm*u'[t]+Km*u[t]-L1*g*Cos[u[t]]*(m1/2+m2+m3);
+F2[Im1_, Bm_, Km_,u_]:=Im1*u''[t]+Bm*u'[t]+Km*u[t]-L2*g*Cos[u[t]]*(m2/2+m3);
+F3[Im1_, Bm_, Km_,u_]:=Im1*u''[t]+Bm*u'[t]+Km*u[t]-L3*g*Cos[u[t]]*(m3/2);
 
 (* Solve IBK ODE *)
 s1=NDSolve[{{F[Ib1,b1,K1,x]==T1[t]},x[0]==5*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
-s2=NDSolve[{{F[Ib2,b2,K2,x]==T2[t]},x[0]==10*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
+s2=NDSolve[{{F2[Ib2,b2,K2,x]==T2[t]},x[0]==10*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
-s3=NDSolve[{{F[Ib3,b3,K3,x]==T3},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
+s3=NDSolve[{{F3[Ib3,b3,K3,x]==T3},x[0]==20*Pi/180,x'[0]==0},{x[t]},{t,0,1}];
 
 (* Extract Lagrangian and IBK solutions *)
 th1Sol = th1[t] /. s[[1]];

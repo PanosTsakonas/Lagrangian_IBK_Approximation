@@ -1,3 +1,21 @@
+Li1=spline(tim,L1);
+Li2=spline(tim,L2);
+Li3=spline(tim,L3);
+
+Li1=ppval(mkpp(Li1.breaks,Li1.coefs),t);
+Li2=ppval(mkpp(Li2.breaks,Li2.coefs),t);
+Li3=ppval(mkpp(Li3.breaks,Li3.coefs),t);
+
+rY1=rsq1(th1f,Y1)
+rL1=rsq1(th1f,Li1)
+
+rY2=rsq1(th2f,Y2)
+rL2=rsq1(th2f,Li2)
+
+rY3=rsq1(th3f,Y3)
+rL3=rsq1(th3f,Li3)
+
+
 figure
 plot(t,th1f.*180/pi,'-',t,Y1.*180/pi,'o',tim,L1.*180/pi,'--black');
 legend("Filtered data","IBK solution","Lagrangian solution",'Location','best');
@@ -24,14 +42,6 @@ saveas(figure(3),"DIP_results","png")
 
 
 
-Li1=spline(tim,L1);
-Li2=spline(tim,L2);
-Li3=spline(tim,L3);
-
-Li1=ppval(mkpp(Li1.breaks,Li1.coefs),t);
-Li2=ppval(mkpp(Li2.breaks,Li2.coefs),t);
-Li3=ppval(mkpp(Li3.breaks,Li3.coefs),t);
-
 figure
 plot(t,(Y1-Li1).*180/pi)
 xlabel("Time (s)")
@@ -52,4 +62,21 @@ xlabel("Time (s)")
 ylabel("DIP difference results (degrees)")
 title("Difference between IBK and Lagrangian solutions")
 saveas(gcf,"DIP_diff","png")
+
+
+
+function rsq=rsq1(th,y)
+% Compute the mean of Y1
+    meanth1 = mean(th(:));
+    
+    % Compute the Total Sum of Squares (SST)
+    SST = sum((th(:) - meanth1).^2);
+    
+    % Compute the Residual Sum of Squares (SSR)
+    SSR = sum((th(:) - y(:)).^2);
+    
+    % Compute the R^2 value
+    rsq = 1 - (SSR / SST);
+end
+
 

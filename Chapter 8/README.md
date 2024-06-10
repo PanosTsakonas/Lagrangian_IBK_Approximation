@@ -1,3 +1,9 @@
 # IBK and Lagrangian fits
 
-This code uses the 
+The Mathematica code uses the solutions to the IBK model from the minimisation of the motion capture data and takes the determined parameters from there. The excel file provided Trial_digit2_Par1_Thelen_trial3.csv has in its first 8 collumns the muscle moment data of the EDC FDP and FDS muscles for the MCP, PIP and DIP joints respectively. The next collumn corresponds to the recorded data time. Collumns 10,12,14 have the filtered MCP, PIP and DIP data respectively. Lastly, collumns 15,16,17 have the IBK solutions for the MCP, PIP and DIP joints respectively. The mathematica script takes these data, fits a cubic spline through the muscle moment data and solve the Lagrangian of the system for 3 degrees of freedom (only flexion/extension). Then it plots the filtered data alongside the IBK and Lagrangian solutions in a single plot. Lastly, the Lagrangian simulation data are exported into a csv file.
+
+# MATLAB code
+
+The MATLAB code takes the filtered data and IBK solution data and the Lagrangian data determined from the Mathematica code. It fits a spline through the Mathematica solutions and calculates the $R^2$ values for the IBK and Lagrangian solutions with respect to the filtered data. Then it plots the filtered data, IBK and Lagrangian solutions data and exports these figures. Lastly, it calculates the differences between the IBk and Lagrangian solutions and exportes these plots as well.
+
+For the MATLAB code L1,L2,L3 are the variable names for the Lagrangian solutions of the MCP, PIP and DIP joints respectively. Y1,Y2 and Y3 are the IBK solution data for the MCP, PIP and DIP joints respectively. Lastly, th1f, th2f and th3f are the filtered data for the MCP, PIP and DIP joints respectively.
